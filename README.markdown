@@ -58,7 +58,7 @@ Payment requests
       :stamp => 1, :amount => '123.34', :refnum => 1,
       :message => 'Payment message', :currency => 'EUR'
     )
-    request = Ipizza::Provider::Swedbank.new.payment_request(@payment)
+    request = Ipizza::Provider::Swedbank.new.payment_request(payment)
 
 Authentication requests
 -----------------------
