@@ -49,10 +49,10 @@ module Ipizza
       # Where || is string concatenation, p(x) is length of the field x represented by three digits.
       #
       # Parameters val1, val2, value3 would be turned into "003val1003val2006value3".
-      def mac_data_string(params, sign_param_order)
+      def mac_data_string(params, sign_param_order, count_characters_instead_of_bytes = false)
         sign_param_order.inject('') do |memo, param|
           val = params[param].to_s
-          memo << func_p(val) << val
+          memo << func_p(val, count_characters_instead_of_bytes) << val
           memo
         end
       end
@@ -60,8 +60,9 @@ module Ipizza
       private
 
       # p(x) is length of the field x represented by three digits
-      def func_p(val)
-        if RUBY_VERSION < '1.9'
+      # SEB requires number of bytes, Swed requires number of characters...
+      def func_p(val, count_characters_instead_of_bytes = false)
+        if RUBY_VERSION < '1.9' || count_characters_instead_of_bytes == true
           sprintf("%03i", val.size)
         else 
           sprintf("%03i", val.bytesize)

@@ -33,7 +33,8 @@ module Ipizza::Provider
 
     def payment_response(params)
       response = Ipizza::PaymentResponse.new(params)
-      response.verify(self.class.file_cert)
+      # Careful to count characters instead of bytes.
+      response.verify(self.class.file_cert, params['VK_ENCODING'], true)
       return response
     end
 
